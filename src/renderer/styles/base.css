@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+h1 {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  margin: 0;
+  font-weight: 600;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 8px;
+  color: var(--text-color);
+}
+
+.icon-button:hover {
+  background-color: var(--border-color);
+}
+
+.card {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.card-value {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-footer {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.gauge-track {
+  height: 8px;
+  border-radius: 999px;
+  background-color: var(--border-color);
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background-color: var(--good-color);
+  transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+.gauge-fill.level-warning {
+  background-color: var(--warning-color);
+}
+
+.gauge-fill.level-critical {
+  background-color: var(--critical-color);
+}
+
+.sparkline {
+  width: 100%;
+  height: 60px;
+  display: block;
+}
+
+.disk-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.disk-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.disk-row-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.disk-row-header strong {
+  color: var(--text-color);
+}

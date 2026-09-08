@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+  <title>PC Monitor</title>
+  <link rel="stylesheet" href="styles/themes.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/layout.css" />
+</head>
+<body class="theme-dark">
+  <header class="app-header">
+    <h1>PC Monitor</h1>
+    <button id="theme-toggle" class="icon-button" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+      <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </header>
+
+  <main class="dashboard" id="dashboard">
+    <section class="card" id="card-cpu" aria-label="Uso de CPU">
+      <div class="card-header">
+        <span class="card-title">CPU</span>
+        <span class="card-value" id="cpu-value">--%</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="cpu-fill"></div>
+      </div>
+      <canvas class="sparkline" id="cpu-sparkline" height="60"></canvas>
+    </section>
+
+    <section class="card" id="card-memory" aria-label="Uso de Memoria RAM">
+      <div class="card-header">
+        <span class="card-title">RAM</span>
+        <span class="card-value" id="memory-value">--%</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill" id="memory-fill"></div>
+      </div>
+      <canvas class="sparkline" id="memory-sparkline" height="60"></canvas>
+      <div class="card-footer" id="memory-detail">-- / -- GB</div>
+    </section>
+
+    <section class="card" id="card-disk" aria-label="Uso de Disco">
+      <div class="card-header">
+        <span class="card-title">Disco</span>
+      </div>
+      <div class="disk-list" id="disk-list"></div>
+    </section>
+  </main>
+
+  <script src="scripts/ui-state.js"></script>
+  <script src="scripts/charts.js"></script>
+  <script src="scripts/app.js"></script>
+</body>
+</html>

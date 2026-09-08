@@ -1,0 +1,40 @@
+{
+  "name": "pc-monitor",
+  "version": "0.1.0",
+  "description": "Monitor de CPU, RAM e Disco em tempo real para Windows, construido com Electron e JavaScript puro.",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "systeminformation": "^5.23.5"
+  },
+  "build": {
+    "appId": "com.pcmonitor.app",
+    "productName": "PC Monitor",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "config/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icons/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
