@@ -1,4 +1,4 @@
-const si = require('systeminformation');
+const systemInfo = require('systeminformation');
 
 const BYTES_PER_GB = 1024 ** 3;
 
@@ -7,9 +7,9 @@ const BYTES_PER_GB = 1024 ** 3;
  * @returns {Promise<Array<{fs: string, mount: string, totalGB: number, usedGB: number, freeGB: number, usagePercent: number}>>}
  */
 async function getDiskMetrics() {
-  const layout = await si.fsSize();
+  const diskLayout = await systemInfo.fsSize();
 
-  return layout.map((disk) => ({
+  return diskLayout.map((disk) => ({
     fs: disk.fs,
     mount: disk.mount,
     totalGB: Math.round((disk.size / BYTES_PER_GB) * 10) / 10,

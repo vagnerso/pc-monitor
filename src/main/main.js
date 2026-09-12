@@ -48,7 +48,6 @@ function createWindow() {
   mainWindow.setMenuBarVisibility(false);
   mainWindow.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
 
-
   mainWindow.on('close', (event) => {
     if (!app.isQuitting) {
       event.preventDefault();
@@ -69,8 +68,8 @@ function startMetricsLoop() {
         mainWindow.webContents.send('metrics:update', metrics);
       }
       updateTrayTooltip(metrics);
-    } catch (err) {
-      console.error('Erro ao coletar metricas:', err);
+    } catch (error) {
+      console.error('Erro ao coletar metricas:', error);
     }
   };
 

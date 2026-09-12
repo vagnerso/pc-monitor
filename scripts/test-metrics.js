@@ -5,7 +5,7 @@ async function main() {
   console.log(JSON.stringify(metrics, null, 2));
 }
 
-main().catch((err) => {
-  console.error('Falha ao coletar metricas:', err);
+main().catch((error) => {
+  console.error('Falha ao coletar metricas:', error);
   process.exit(1);
 });

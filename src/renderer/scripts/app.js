@@ -1,11 +1,11 @@
 (async () => {
-  const cpuValueEl = document.getElementById('cpu-value');
-  const cpuFillEl = document.getElementById('cpu-fill');
-  const memoryValueEl = document.getElementById('memory-value');
-  const memoryFillEl = document.getElementById('memory-fill');
-  const memoryDetailEl = document.getElementById('memory-detail');
-  const diskListEl = document.getElementById('disk-list');
-  const themeToggleBtn = document.getElementById('theme-toggle');
+  const cpuValueElement = document.getElementById('cpu-value');
+  const cpuFillElement = document.getElementById('cpu-fill');
+  const memoryValueElement = document.getElementById('memory-value');
+  const memoryFillElement = document.getElementById('memory-fill');
+  const memoryDetailElement = document.getElementById('memory-detail');
+  const diskListElement = document.getElementById('disk-list');
+  const themeToggleButton = document.getElementById('theme-toggle');
 
   const historyLength = window.pcMonitor.constants.HISTORY_LENGTH;
   const cpuSparkline = new Sparkline(document.getElementById('cpu-sparkline'), historyLength);
@@ -13,48 +13,58 @@
 
   let currentTheme = 'dark';
 
-  function setGauge(fillEl, valueEl, percent) {
-    const level = UiState.severityLevel(percent);
-    fillEl.style.width = `${Math.min(100, percent)}%`;
-    fillEl.classList.remove('level-warning', 'level-critical');
-    if (level === 'warning') fillEl.classList.add('level-warning');
-    if (level === 'critical') fillEl.classList.add('level-critical');
-    valueEl.textContent = `${percent.toFixed(1)}%`;
+  function setGauge(fillElement, valueElement, usagePercent) {
+    const severityLevel = UiState.severityLevel(usagePercent);
+    fillElement.style.width = `${Math.min(100, usagePercent)}%`;
+    fillElement.classList.remove('level-warning', 'level-critical');
+    if (severityLevel === 'warning') fillElement.classList.add('level-warning');
+    if (severityLevel === 'critical') fillElement.classList.add('level-critical');
+    valueElement.textContent = `${usagePercent.toFixed(1)}%`;
   }
 
   function renderDisks(disks) {
-    diskListEl.innerHTML = '';
+    diskListElement.innerHTML = '';
     disks.forEach((disk) => {
+      const severityLevel = UiState.severityLevel(disk.usagePercent);
+
       const row = document.createElement('div');
       row.className = 'disk-row';
+
+      const pieCanvas = document.createElement('canvas');
+      pieCanvas.className = 'disk-pie';
+      pieCanvas.setAttribute('aria-hidden', 'true');
+      row.appendChild(pieCanvas);
+
+      const info = document.createElement('div');
+      info.className = 'disk-row-info';
 
       const header = document.createElement('div');
       header.className = 'disk-row-header';
       header.innerHTML = `<strong>${disk.mount}</strong><span>${disk.usedGB} / ${disk.totalGB} GB (${disk.usagePercent.toFixed(1)}%)</span>`;
+      info.appendChild(header);
 
-      const track = document.createElement('div');
-      track.className = 'gauge-track';
-      const fill = document.createElement('div');
-      fill.className = 'gauge-fill';
-      const level = UiState.severityLevel(disk.usagePercent);
-      if (level === 'warning') fill.classList.add('level-warning');
-      if (level === 'critical') fill.classList.add('level-critical');
-      fill.style.width = `${Math.min(100, disk.usagePercent)}%`;
-      track.appendChild(fill);
+      const legend = document.createElement('div');
+      legend.className = 'disk-pie-legend';
+      legend.innerHTML = `
+        <span class="legend-item"><span class="legend-dot level-${severityLevel}"></span>Usado (${disk.usedGB} GB)</span>
+        <span class="legend-item"><span class="legend-dot level-free"></span>Livre (${disk.freeGB} GB)</span>
+      `;
+      info.appendChild(legend);
 
-      row.appendChild(header);
-      row.appendChild(track);
-      diskListEl.appendChild(row);
+      row.appendChild(info);
+      diskListElement.appendChild(row);
+
+      drawDiskUsagePie(pieCanvas, disk.usagePercent, severityLevel);
     });
   }
 
   function handleMetrics(metrics) {
-    setGauge(cpuFillEl, cpuValueEl, metrics.cpu.usagePercent);
+    setGauge(cpuFillElement, cpuValueElement, metrics.cpu.usagePercent);
     cpuSparkline.push(metrics.cpu.usagePercent);
 
-    setGauge(memoryFillEl, memoryValueEl, metrics.memory.usagePercent);
+    setGauge(memoryFillElement, memoryValueElement, metrics.memory.usagePercent);
     memorySparkline.push(metrics.memory.usagePercent);
-    memoryDetailEl.textContent = `${metrics.memory.usedGB} / ${metrics.memory.totalGB} GB`;
+    memoryDetailElement.textContent = `${metrics.memory.usedGB} / ${metrics.memory.totalGB} GB`;
 
     renderDisks(metrics.disks);
   }
@@ -65,7 +75,7 @@
     UiState.applyTheme(currentTheme);
   }
 
-  themeToggleBtn.addEventListener('click', async () => {
+  themeToggleButton.addEventListener('click', async () => {
     currentTheme = currentTheme === 'light' ? 'dark' : 'light';
     UiState.applyTheme(currentTheme);
     await window.pcMonitor.setConfig({ theme: currentTheme });

@@ -34,14 +34,14 @@ function generatePng(size) {
   const radius = size * 0.46;
   const raw = Buffer.alloc(size * (1 + size * 4));
 
-  for (let y = 0; y < size; y++) {
-    const rowStart = y * (1 + size * 4);
+  for (let pixelY = 0; pixelY < size; pixelY++) {
+    const rowStart = pixelY * (1 + size * 4);
     raw[rowStart] = 0; // filter: none
-    for (let x = 0; x < size; x++) {
-      const dx = x - center + 0.5;
-      const dy = y - center + 0.5;
-      const inCircle = dx * dx + dy * dy <= radius * radius;
-      const offset = rowStart + 1 + x * 4;
+    for (let pixelX = 0; pixelX < size; pixelX++) {
+      const deltaX = pixelX - center + 0.5;
+      const deltaY = pixelY - center + 0.5;
+      const inCircle = deltaX * deltaX + deltaY * deltaY <= radius * radius;
+      const offset = rowStart + 1 + pixelX * 4;
       if (inCircle) {
         raw[offset] = 37; // R
         raw[offset + 1] = 99; // G
@@ -94,7 +94,7 @@ function buildIco(sizes) {
     offset += data.length;
   });
 
-  return Buffer.concat([header, ...dirEntries, ...images.map((i) => i.data)]);
+  return Buffer.concat([header, ...dirEntries, ...images.map((image) => image.data)]);
 }
 
 const outDir = path.join(__dirname, '..', 'assets', 'icons');

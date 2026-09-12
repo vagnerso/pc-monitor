@@ -108,13 +108,27 @@ h1 {
 .disk-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .disk-row {
   display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.disk-pie {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.disk-row-info {
+  display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
+  flex: 1;
 }
 
 .disk-row-header {
@@ -126,4 +140,37 @@ h1 {
 
 .disk-row-header strong {
   color: var(--text-color);
+}
+
+.disk-pie-legend {
+  display: flex;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--good-color);
+  flex-shrink: 0;
+}
+
+.legend-dot.level-warning {
+  background-color: var(--warning-color);
+}
+
+.legend-dot.level-critical {
+  background-color: var(--critical-color);
+}
+
+.legend-dot.level-free {
+  background-color: var(--border-color);
 }
